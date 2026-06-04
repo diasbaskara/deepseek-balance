@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extensions">
+  <schema id="org.gnome.shell.extensions.deepseek-balance" path="/org/gnome/shell/extensions/deepseek-balance/">
+    <key name="api-key" type="s">
+      <default>""</default>
+      <summary>API Key (fallback)</summary>
+      <description>Fallback API key. The preferred storage is the system keyring.</description>
+    </key>
+    <key name="refresh-interval" type="i">
+      <default>30</default>
+      <summary>Refresh interval in minutes</summary>
+      <description>How often to refresh the balance display (1-1440 minutes).</description>
+    </key>
+  </schema>
+</schemalist>

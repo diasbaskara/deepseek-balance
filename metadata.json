@@ -1,0 +1,9 @@
+{
+  "description": "Display DeepSeek API balance in the GNOME top panel",
+  "name": "DeepSeek Balance",
+  "settings-schema": "org.gnome.shell.extensions.deepseek-balance",
+  "shell-version": ["50"],
+  "url": "https://github.com/diasbaskara/deepseek-balance",
+  "uuid": "deepseek-balance@diasbaskara.id",
+  "version": 1
+}
