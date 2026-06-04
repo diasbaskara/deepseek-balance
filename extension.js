@@ -43,10 +43,9 @@ class DeepSeekIndicator extends PanelMenu.Button {
 
         const box = new St.BoxLayout({ style_class: 'deepseek-balance-box' });
 
-        this._icon = new St.Icon({
-            gicon: Gio.FileIcon.new(Gio.File.new_for_path(extensionPath + '/deepseek-icon.svg')),
-            icon_size: 14,
-            style_class: 'system-status-icon deepseek-panel-icon',
+        this._icon = new St.Label({
+            text: '\u25CF',
+            style_class: 'deepseek-icon',
         });
         box.add_child(this._icon);
 
