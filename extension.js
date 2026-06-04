@@ -44,8 +44,8 @@ class DeepSeekIndicator extends PanelMenu.Button {
         const box = new St.BoxLayout({ style_class: 'deepseek-balance-box' });
 
         this._dot = new St.Label({
-            text: '\u25CF',
-            style_class: 'deepseek-dot',
+            text: ' \u25CF ',
+            style: 'font-size: 10px; color: #33cc33;',
         });
         box.add_child(this._dot);
 
@@ -146,9 +146,9 @@ class DeepSeekIndicator extends PanelMenu.Button {
         this._label.text = 'DeepSeek ' + sym + primary.total_balance;
 
         this._dot.visible = true;
-        this._dot.style_class = this._balanceData.is_available
-            ? 'deepseek-dot deepseek-dot-ok'
-            : 'deepseek-dot deepseek-dot-warn';
+        this._dot.style = this._balanceData.is_available
+            ? 'font-size: 10px; color: #33cc33;'
+            : 'font-size: 10px; color: #ffcc00;';
 
         this._updateMenu(infos);
     }

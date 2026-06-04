@@ -3,16 +3,19 @@
 }
 
 .deepseek-dot {
-    font-size: 10px;
-    color: #33cc33;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    margin: 6px 2px 0 2px;
+    background-color: #33cc33;
 }
 
 .deepseek-dot-ok {
-    color: #33cc33;
+    background-color: #33cc33;
 }
 
 .deepseek-dot-warn {
-    color: #ffcc00;
+    background-color: #ffcc00;
 }
 
 .deepseek-balance-label {
