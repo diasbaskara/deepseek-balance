@@ -1,5 +1,6 @@
 import Soup from 'gi://Soup';
 import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 import Secret from 'gi://Secret?version=1';
@@ -26,15 +27,14 @@ let _extension = null;
 function getApiKey(settings) {
     try {
         const fromKeyring = Secret.password_lookup_sync(SecretSchema, SecretAttrs, null);
-        if (fromKeyring)
-            return fromKeyring;
+        if (fromKeyring) return fromKeyring;
     } catch (e) {}
     return settings.get_string('api-key').trim();
 }
 
 const DeepSeekIndicator = GObject.registerClass(
 class DeepSeekIndicator extends PanelMenu.Button {
-    _init(settings) {
+    _init(settings, extensionPath) {
         super._init(0, _('DeepSeek Balance'));
 
         this._settings = settings;
@@ -43,14 +43,15 @@ class DeepSeekIndicator extends PanelMenu.Button {
 
         const box = new St.BoxLayout({ style_class: 'deepseek-balance-box' });
 
-        this._dot = new St.Label({
-            text: ' \u25CF ',
-            style: 'font-size: 10px; color: #33cc33;',
+        this._icon = new St.Icon({
+            gicon: Gio.icon_new_for_string(extensionPath + '/deepseek-icon.svg'),
+            icon_size: 14,
+            style_class: 'system-status-icon deepseek-panel-icon',
         });
-        box.add_child(this._dot);
+        box.add_child(this._icon);
 
         this._label = new St.Label({
-            text: 'DeepSeek ...',
+            text: '...',
             style_class: 'deepseek-balance-label',
         });
         box.add_child(this._label);
@@ -72,8 +73,7 @@ class DeepSeekIndicator extends PanelMenu.Button {
 
         const settingsItem = new PopupMenu.PopupMenuItem(_('Settings'));
         settingsItem.connect('activate', () => {
-            if (_extension)
-                _extension.openPreferences();
+            if (_extension) _extension.openPreferences();
         });
         this.menu.addMenuItem(settingsItem);
 
@@ -121,23 +121,24 @@ class DeepSeekIndicator extends PanelMenu.Button {
                 this._setError(e.message);
             }
         });
+    }
+
     _setError(msg) {
         this._balanceData = null;
         this._error = msg;
         this._label.text = 'DeepSeek N/A';
-        this._dot.visible = false;
+        this._icon.visible = false;
         this._updateMenuError(msg);
     }
 
     _updateDisplay() {
-        if (!this._balanceData)
-            return;
+        if (!this._balanceData) return;
 
         const infos = this._balanceData.balance_infos || [];
 
         if (infos.length === 0) {
             this._label.text = 'DeepSeek 0.00';
-            this._dot.visible = this._balanceData.is_available;
+            this._icon.visible = this._balanceData.is_available;
             return;
         }
 
@@ -145,17 +146,13 @@ class DeepSeekIndicator extends PanelMenu.Button {
         const sym = primary.currency === 'USD' ? '$' : '\u00A5';
         this._label.text = 'DeepSeek ' + sym + primary.total_balance;
 
-        this._dot.visible = true;
-        this._dot.style = this._balanceData.is_available
-            ? 'font-size: 10px; color: #33cc33;'
-            : 'font-size: 10px; color: #ffcc00;';
+        this._icon.visible = true;
 
         this._updateMenu(infos);
     }
 
     _updateMenu(infos) {
-        for (const item of this._balanceItems)
-            item.destroy();
+        for (const item of this._balanceItems) item.destroy();
         this._balanceItems = [];
 
         this._availableItem.label.text = this._balanceData.is_available
@@ -173,13 +170,11 @@ class DeepSeekIndicator extends PanelMenu.Button {
             this._balanceItems.push(item);
             this.menu.addMenuItem(item);
         }
-
         this._balanceSeparator.visible = infos.length > 0;
     }
 
     _updateMenuError(msg) {
-        for (const item of this._balanceItems)
-            item.destroy();
+        for (const item of this._balanceItems) item.destroy();
         this._balanceItems = [];
         this._availableItem.label.text = _('Error: ') + msg;
         this._balanceSeparator.visible = false;
@@ -198,7 +193,7 @@ export default class DeepSeekBalanceExtension extends Extension {
     enable() {
         _extension = this;
         balanceIndicator = new DeepSeekIndicator(
-            this.getSettings(SCHEMA_ID)
+            this.getSettings(SCHEMA_ID), this.path
         );
         Main.panel.addToStatusArea('deepseek-balance', balanceIndicator, 0, 'right');
     }

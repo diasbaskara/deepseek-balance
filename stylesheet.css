@@ -2,20 +2,8 @@
     spacing: 3px;
 }
 
-.deepseek-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    margin: 6px 2px 0 2px;
-    background-color: #33cc33;
-}
-
-.deepseek-dot-ok {
-    background-color: #33cc33;
-}
-
-.deepseek-dot-warn {
-    background-color: #ffcc00;
+.deepseek-panel-icon {
+    padding-top: 1px;
 }
 
 .deepseek-balance-label {
