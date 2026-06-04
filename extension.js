@@ -44,7 +44,7 @@ class DeepSeekIndicator extends PanelMenu.Button {
         const box = new St.BoxLayout({ style_class: 'deepseek-balance-box' });
 
         this._icon = new St.Label({
-            text: '\u25CF',
+            text: '\uD83D\uDD35',
             style_class: 'deepseek-icon',
         });
         box.add_child(this._icon);
