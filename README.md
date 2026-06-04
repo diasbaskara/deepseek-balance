@@ -3,7 +3,7 @@
 GNOME Shell extension that displays your [DeepSeek API](https://platform.deepseek.com/) balance in the top panel.
 
 
-Shows `DeepSeek $7.78` with a green status dot. Click for a detailed breakdown.
+Shows `● DeepSeek $X.XX` with a green status dot. Click for a detailed breakdown.
 
 ## Features
 
