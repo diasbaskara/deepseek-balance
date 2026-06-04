@@ -41,17 +41,21 @@ class DeepSeekIndicator extends PanelMenu.Button {
         this._balanceData = null;
         this._error = null;
 
+        const box = new St.BoxLayout({ style_class: 'deepseek-balance-box' });
+
+        this._dot = new St.Label({
+            text: '\u25CF',
+            style_class: 'deepseek-dot',
+        });
+        box.add_child(this._dot);
+
         this._label = new St.Label({
             text: 'DeepSeek ...',
             style_class: 'deepseek-balance-label',
         });
-        this.add_child(this._label);
-        this._statusIcon = new St.Icon({
-            icon_name: 'deepseek-balance-ok-symbolic',
-            style_class: 'system-status-icon deepseek-status-icon',
-            icon_size: 12,
-        });
-        this._statusIcon.visible = false;
+        box.add_child(this._label);
+
+        this.add_child(box);
 
         this._refreshItem = new PopupMenu.PopupMenuItem(_('Refresh'));
         this._refreshItem.connect('activate', () => this._fetchBalance());
@@ -117,13 +121,11 @@ class DeepSeekIndicator extends PanelMenu.Button {
                 this._setError(e.message);
             }
         });
-    }
-
     _setError(msg) {
         this._balanceData = null;
         this._error = msg;
         this._label.text = 'DeepSeek N/A';
-        this._statusIcon.visible = false;
+        this._dot.visible = false;
         this._updateMenuError(msg);
     }
 
@@ -135,7 +137,7 @@ class DeepSeekIndicator extends PanelMenu.Button {
 
         if (infos.length === 0) {
             this._label.text = 'DeepSeek 0.00';
-            this._statusIcon.visible = this._balanceData.is_available;
+            this._dot.visible = this._balanceData.is_available;
             return;
         }
 
@@ -143,10 +145,10 @@ class DeepSeekIndicator extends PanelMenu.Button {
         const sym = primary.currency === 'USD' ? '$' : '\u00A5';
         this._label.text = 'DeepSeek ' + sym + primary.total_balance;
 
-        this._statusIcon.visible = true;
-        this._statusIcon.style_class = this._balanceData.is_available
-            ? 'system-status-icon deepseek-status-ok'
-            : 'system-status-icon deepseek-status-warn';
+        this._dot.visible = true;
+        this._dot.style_class = this._balanceData.is_available
+            ? 'deepseek-dot deepseek-dot-ok'
+            : 'deepseek-dot deepseek-dot-warn';
 
         this._updateMenu(infos);
     }

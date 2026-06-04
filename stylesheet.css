@@ -1,13 +1,22 @@
+.deepseek-balance-box {
+    spacing: 3px;
+}
+
+.deepseek-dot {
+    font-size: 10px;
+    color: #33cc33;
+}
+
+.deepseek-dot-ok {
+    color: #33cc33;
+}
+
+.deepseek-dot-warn {
+    color: #ffcc00;
+}
+
 .deepseek-balance-label {
     font-size: 14px;
     font-weight: normal;
     padding: 7px 6px 0 6px;
-}
-
-.deepseek-status-ok {
-    color: #33cc33;
-}
-
-.deepseek-status-warn {
-    color: #ffcc00;
 }
